@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">AlphaMorze-android</string>
+    <string name="app_name">AlphaMorze</string>
+    <string name="button_send">Send</string>
 </resources>
