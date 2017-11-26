@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
 
         ArrayList<Byte> tempArrList = new ArrayList<>();
 
+
+
         Byte[] res = tempArrList.toArray(new Byte[tempArrList.size()]);
 
         return toPrimByte(res);
@@ -61,5 +63,39 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void toCommand(final String text, ArrayList<Byte> arrayList) {
+
+
+
+    }
+
+    private byte[] toCode(final char ch) {
+
+        ArrayList<Byte> tempArrList = new ArrayList<>();
+
+        switch (ch) {
+            case 'A':
+                tempArrList.add((byte) 0);
+                tempArrList.add((byte) 1);
+                break;
+            case 'B':
+                tempArrList.add((byte) 1);
+                tempArrList.add((byte) 0);
+                tempArrList.add((byte) 0);
+                tempArrList.add((byte) 0);
+                break;
+            case 'C':
+                tempArrList.add((byte) 1);
+                tempArrList.add((byte) 0);
+                tempArrList.add((byte) 1);
+                tempArrList.add((byte) 0);
+                break;
+        }
+
+        Byte[] res = tempArrList.toArray(new Byte[tempArrList.size()]);;
+
+        return toPrimByte(res);
+
+    }
 
 }
