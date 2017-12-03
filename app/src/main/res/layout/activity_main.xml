@@ -26,4 +26,12 @@
         android:onClick="sendBinaryText"
         />
 
+    <Button
+        android:id="@+id/button_connect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_connect_connect"
+        android:onClick="touchConnect"
+        />
+
 </LinearLayout>

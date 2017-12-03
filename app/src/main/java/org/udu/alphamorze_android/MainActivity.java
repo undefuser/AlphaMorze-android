@@ -1,5 +1,10 @@
 package org.udu.alphamorze_android;
 
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.hardware.usb.UsbDevice;
+import android.hardware.usb.UsbDeviceConnection;
+import android.hardware.usb.UsbManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -7,12 +12,21 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
+    public final String ACTION_USB_PERMISSION = "org.udu.alphamorze_android.USB_PERMISSION";
+
+    private Button buttonConnect;
     private Button buttonSend;
 
     private EditText editText;
+
+    private UsbDevice device;
+    private UsbDeviceConnection connection;
+    private UsbManager usbManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,8 +34,75 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        buttonSend = findViewById(R.id.button_send);
-        editText   = findViewById(R.id.enter_text_field);
+        buttonConnect = findViewById(R.id.button_connect);
+        buttonSend    = findViewById(R.id.button_send);
+        editText      = findViewById(R.id.enter_text_field);
+
+        setUIEnabled(false);
+
+        if (isConnected()) {
+            buttonConnect.setText(R.string.button_connect_disconnect);
+            setUIEnabled(true);
+        }
+
+    }
+
+    private boolean isConnected() {
+
+        HashMap<String, UsbDevice> usbDevices = usbManager.getDeviceList();
+
+        if (!usbDevices.isEmpty()) {
+
+            boolean keep = true;
+
+            for (Map.Entry<String, UsbDevice> entry : usbDevices.entrySet()) {
+
+                device = entry.getValue();
+                int deviceVID = device.getVendorId();
+                if (deviceVID == 0x2341) { //Arduino Vendor ID
+                    PendingIntent pi = PendingIntent.getBroadcast(this, 0,
+                            new Intent(ACTION_USB_PERMISSION), 0);
+                    usbManager.requestPermission(device, pi);
+                    keep = false;
+                } else {
+                    connection = null;
+                    device = null;
+                }
+
+                if (!keep) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+
+    }
+
+    private void setUIEnabled(final boolean isEnabled) {
+
+        buttonSend.setEnabled(isEnabled);
+        editText.setEnabled(isEnabled);
+
+    }
+
+    public void touchConnect(final View view) {   // Обработчик нажатия для buttonConnect
+
+        if (buttonConnect.getText().toString() == "Connect") {
+
+        }
+
+        if (buttonConnect.getText().toString() == "Disconnect") {
+
+        }
+
+    }
+
+    public void sendBinaryText(final View view) { // Обработчик нажатия для buttonSend
+
+        byte[] result_text;
+
+        result_text = byteCodeFromText(editText.getText().toString().toUpperCase()).clone();
 
     }
 
@@ -34,14 +115,6 @@ public class MainActivity extends AppCompatActivity {
         Byte[] res = tempArrList.toArray(new Byte[tempArrList.size()]);
 
         return toPrimByte(res);
-
-    }
-
-    public void sendBinaryText(final View view) { // Обработчик нажатия на buttonSend
-
-        byte[] result_text;
-
-        result_text = byteCodeFromText(editText.getText().toString().toUpperCase()).clone();
 
     }
 
