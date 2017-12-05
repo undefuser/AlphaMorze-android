@@ -12,10 +12,10 @@
 
     <EditText
         android:id="@+id/enter_text_field"
-        android:layout_width="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
         />
 
     <Button
@@ -23,15 +23,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/button_send"
-        android:onClick="sendBinaryText"
+        android:onClick="onClickSend"
         />
 
     <Button
         android:id="@+id/button_connect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/button_connect_connect"
-        android:onClick="touchConnect"
+        android:text="@string/button_connect"
+        android:onClick="onClickConnect"
+        />
+
+    <Button
+        android:id="@+id/button_disconnect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_disconnect"
+        android:onClick="onClickDisconnect"
         />
 
 </LinearLayout>
